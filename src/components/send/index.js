@@ -31,17 +31,20 @@ class Send extends React.Component {
             {t('Send')}
           </span>
         </span>
-        <Box className={`send-box ${styles.send} ${this.state.sendIsActive ? styles.isActive : ''}`}>
-          <span className={`mobile-close-button ${styles.mobileClose}`}
-            onClick={this.setSendIsActive.bind(this, false)}>
-            {t('Close')} <FontIcon value='close' />
-          </span>
-          <MultiStep finalCallback={this.setSendIsActive.bind(this, false)}>
-            <SendWritable autoFocus={this.state.sendIsActive || window.innerWidth > 1024}/>
-            <SendReadable />
-            <ResultBox />
-          </MultiStep>
-        </Box>
+        <div className={`${styles.send} ${this.state.sendIsActive ? styles.isActive : ''}`}>
+          <Box className='send-Box'>
+            <span className={`mobile-close-button ${styles.mobileClose}`}
+              onClick={this.setSendIsActive.bind(this, false)}>
+              {t('Close')} <FontIcon value='close' />
+            </span>
+            <MultiStep finalCallback={this.setSendIsActive.bind(this, false)}
+              className={styles.heightHelper}>
+              <SendWritable autoFocus={this.state.sendIsActive || window.innerWidth > 1024}/>
+              <SendReadable />
+              <ResultBox />
+            </MultiStep>
+          </Box>
+        </div>
       </div>
     );
   }

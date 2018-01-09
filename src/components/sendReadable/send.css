@@ -146,4 +146,11 @@ input:read-only {
   .mobileVisible {
     display: block;
   }
+
+  .form {
+    min-height: calc(100% - 140px);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
 }

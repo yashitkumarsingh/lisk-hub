@@ -13,10 +13,12 @@
   .send {
     position: fixed;
     top: 100vh; /* stylelint-disable-line */
+    width: 100vw; /* stylelint-disable-line */
     right: 0;
     height: 100vh; /* stylelint-disable-line */
     transition: top 300ms ease-in-out;
     z-index: 10;
+    overflow-y: auto;
 
     &.isActive {
       top: var(--m-top-bar-height);
@@ -62,5 +64,9 @@
 
   .mobileMenuItem {
     font-size: 18px;
+  }
+
+  .heightHelper {
+    height: calc(100% - var(--s-top-bar-height));
   }
 }

@@ -114,7 +114,7 @@ class SendReadable extends React.Component {
 
   render() {
     return (
-      <div className='boxPadding send'>
+      <div className='boxPadding send' style={{ height: '100%' }}>
         <div className={styles.header}>
           <header className={styles.headerWrapper}>
             <h2>{this.props.t('Confirm transfer')}</h2>
@@ -126,31 +126,32 @@ class SendReadable extends React.Component {
             <AccountVisual address={this.state.recipient.value} size={60} />
           </figure>
         </div>
-        <form onSubmit={this.send.bind(this)}>
-          <Input label={this.props.t('Send to Address')}
-            className={`recipient ${styles.disabledInput}`}
-            value={this.props.recipient}
-            onChange={this.handleChange.bind(this, 'recipient')}
-            disabled={true}
-          />
-
-          <Input label={this.props.t('Total incl. 0.1 LSK Fee')}
-            className={`amount ${styles.disabledInput}`}
-            error={this.state.amount.error}
-            value={this.addAmountAndFee()}
-            disabled={true}
-            theme={styles}
-            onChange={this.handleChange.bind(this, 'amount')} />
-          <AuthInputs
-            passphrase={this.state.passphrase}
-            secondPassphrase={this.state.secondPassphrase}
-            onChange={this.handleChange.bind(this)}
-            theme={inputStyles}
-            columns={{ xs: 6, sm: 4, md: 4 }}
-          />
+        <form className={styles.form} onSubmit={this.send.bind(this)}>
+          <section>
+            <Input label={this.props.t('Send to Address')}
+              className={`recipient ${styles.disabledInput}`}
+              value={this.props.recipient}
+              onChange={this.handleChange.bind(this, 'recipient')}
+              disabled={true}
+            />
+            <Input label={this.props.t('Total incl. 0.1 LSK Fee')}
+              className={`amount ${styles.disabledInput}`}
+              error={this.state.amount.error}
+              value={this.addAmountAndFee()}
+              disabled={true}
+              theme={styles}
+              onChange={this.handleChange.bind(this, 'amount')} />
+            <AuthInputs
+              passphrase={this.state.passphrase}
+              secondPassphrase={this.state.secondPassphrase}
+              onChange={this.handleChange.bind(this)}
+              theme={inputStyles}
+              columns={{ xs: 6, sm: 4, md: 4 }}
+            />
+          </section>
           <footer>
             <section className={grid.row} >
-              <div className={grid['col-xs-4']}>
+              <div className={`${grid['col-sm-4']} ${grid['col-xs-6']}`}>
                 <Button
                   label={this.props.t('Back')}
                   onClick={() => this.props.prevStep()}
@@ -158,7 +159,7 @@ class SendReadable extends React.Component {
                   theme={styles}
                 />
               </div>
-              <div className={grid['col-xs-8']}>
+              <div className={`${grid['col-sm-8']} ${grid['col-xs-6']}`}>
                 <PrimaryButton
                   className='send-button'
                   label={this.props.t('Send')}
@@ -166,9 +167,9 @@ class SendReadable extends React.Component {
                   theme={styles}
                   disabled={!authStateIsValid(this.state) || this.state.loading}
                 />
-                <div className='subTitle'>{this.props.t('Transactions can’t be reversed')}</div>
               </div>
             </section>
+            <div className='subTitle'>{this.props.t('Transactions can’t be reversed')}</div>
           </footer>
         </form>
       </div>

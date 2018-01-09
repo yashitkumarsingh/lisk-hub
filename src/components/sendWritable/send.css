@@ -89,6 +89,13 @@ input:read-only {
   .header {
     height: 50px;
   }
+
+  .form {
+    min-height: calc(100% - 120px);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
 }
 
 @media (--xSmall-viewport) {

@@ -72,37 +72,39 @@ class SendWritable extends React.Component {
 
   render() {
     return (
-      <div className='boxPadding'>
+      <div className='boxPadding' style={{ height: '100%' }}>
         <div className={styles.header}>
           <header className={styles.headerWrapper}>
             <h2>Transfer</h2>
             <span className={`${styles.subTitle} ${styles.transfer}`}>{this.props.t('Quickly send and request LSK token')}</span>
           </header>
         </div>
-        <form>
-          <Input label={this.props.t('Send to Address')}
-            className='recipient'
-            autoFocus={this.props.autoFocus}
-            error={this.state.recipient.error}
-            value={this.state.recipient.value}
-            onChange={this.handleChange.bind(this, 'recipient')}
-            theme={this.showAccountVisual() ? inputTheme : {}}
-          >
-            {this.showAccountVisual() ?
-              <figure className={styles.accountVisual}>
-                <AccountVisual address={this.state.recipient.value} size={50} />
-              </figure>
-              : ''
-            }
-          </Input>
+        <form className={styles.form}>
+          <section>
+            <Input label={this.props.t('Send to Address')}
+              className='recipient'
+              autoFocus={this.props.autoFocus}
+              error={this.state.recipient.error}
+              value={this.state.recipient.value}
+              onChange={this.handleChange.bind(this, 'recipient')}
+              theme={this.showAccountVisual() ? inputTheme : {}}
+            >
+              {this.showAccountVisual() ?
+                <figure className={styles.accountVisual}>
+                  <AccountVisual address={this.state.recipient.value} size={50} />
+                </figure>
+                : ''
+              }
+            </Input>
 
-          <Input label={this.props.t('Amount (LSK)')}
-            className='amount'
-            error={this.state.amount.error}
-            value={this.state.amount.value}
-            theme={styles}
-            onChange={this.handleChange.bind(this, 'amount')} />
-          <div className={styles.fee}> {this.props.t('Fee: {{fee}} LSK', { fee: fromRawLsk(this.fee) })} </div>
+            <Input label={this.props.t('Amount (LSK)')}
+              className='amount'
+              error={this.state.amount.error}
+              value={this.state.amount.value}
+              theme={styles}
+              onChange={this.handleChange.bind(this, 'amount')} />
+            <div className={styles.fee}> {this.props.t('Fee: {{fee}} LSK', { fee: fromRawLsk(this.fee) })} </div>
+          </section>
 
           <footer>
             <Button onClick={() => this.props.nextStep({

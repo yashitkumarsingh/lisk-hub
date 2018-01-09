@@ -41,13 +41,18 @@ class SavedAccounts extends React.Component {
   }
 
   isSelectedForRemove(account) {
-    return account === this.state.accountSelectedForRemove;
+    const { publicKey, network, address } = this.state.accountSelectedForRemove || {};
+    return (account.publicKey === publicKey &&
+      account.network === network &&
+      account.address === address);
   }
 
   handleRemove(account, e) {
     if (this.isSelectedForRemove(account)) {
+      console.log('REAL', this.state.accountSelectedForRemove, account);
       this.props.accountRemoved(account);
     } else {
+      console.log('FAKE', this.state.accountSelectedForRemove, account);
       this.selectForRemove(account);
     }
     e.stopPropagation();
