@@ -202,15 +202,15 @@
   "bundlesize": [
     {
       "path": "./app/build/bundle.app.js",
-      "maxSize": "890 kB"
+      "maxSize": "350 kB"
     },
     {
       "path": "./app/build/bundle.vendor.js",
-      "maxSize": "150 kB"
+      "maxSize": "650 kB"
     },
     {
       "path": "./app/build/styles.css",
-      "maxSize": "1.50 MB"
+      "maxSize": "50 kB"
     }
   ],
   "greenkeeper": {
