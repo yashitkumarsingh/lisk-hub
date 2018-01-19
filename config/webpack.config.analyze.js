@@ -14,6 +14,9 @@ module.exports = merge(baseConfig, reactConfig, {
   },
   devtool: 'inline-source-map',
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+    }),
     new BundleAnalyzerPlugin(),
     new webpack.DefinePlugin({
       PRODUCTION: false,
