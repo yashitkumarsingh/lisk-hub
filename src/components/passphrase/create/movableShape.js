@@ -5,77 +5,48 @@ class MovableShape extends React.Component {
   constructor() {
     super();
     this.progress = 0;
-    this.totalSteps = 100;
-    this.state = {
-      style: {
-        opacity: 0,
-      },
-    };
   }
 
   componentDidMount() {
-    this.allocateShape.call(this);
-    const { initial } = this.props;
-    this.configs = {
-      left: {
-        initial: parseFloat(initial[0], 10),
-        step: (50 - parseFloat(initial[0], 10)) / 100,
-        alpha: parseFloat(initial[0], 10) > 50 ? -1 : 1,
-      },
-      bottom: {
-        initial: parseFloat(initial[1], 10),
-        step: (50 - parseFloat(initial[1], 10)) / 100,
-        alpha: parseFloat(initial[1], 10) > 50 ? -1 : 1,
-      },
-    };
-
+    const { end, reverse } = this.props;
+    this.direction = reverse ? -1 : 1;
     this.shapeRenderer = css(this.shape);
     this.tween = tween({
-      to: this.totalSteps,
+      to: 100,
       duration: 30,
       ease: easing.easeInOut,
       onUpdate: (x) => {
-        const nextLeft = this.configs.left.initial +
-          (this.props.percentage * this.configs.left.step);
-        const nextBottom = this.configs.bottom.initial +
-          (this.props.percentage * this.configs.bottom.step);
+        const point = x / 100;
         this.progress = x;
-        this.shapeRenderer.set('bottom', `${nextBottom}%`);
-        this.shapeRenderer.set('left', `${nextLeft}%`);
+        this.shapeRenderer.set('y', end.y * point * -1);
+        this.shapeRenderer.set('x', end.x * point * this.direction);
       },
     });
-  }
-
-  allocateShape() {
-    const { hidden } = this.props;
-    const style = Object.assign({ opacity: hidden },
-      { left: this.props.initial[0], bottom: this.props.initial[1] });
-    this.setState({ style });
   }
 
   shouldComponentUpdate(nextProps) {
     this.moveShape(nextProps.percentage);
     if (nextProps.hidden === 0) {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   moveShape(percentage) {
-    if (Math.floor(percentage) % 4 !== 0) {
+    if (percentage % 4 > 2 && percentage % 4 !== 0) {
       this.tween.setProps({
         from: this.progress,
         to: percentage,
         duration: 200,
-      }).start();
+      });
+      this.tween.start();
     }
   }
 
   render() {
-    const { className, src } = this.props;
-
+    const { className, src, hidden } = this.props;
     return <img
-      style = { this.state.style }
+      style = {{ opacity: hidden }}
       className={className}
       ref={(input) => { this.shape = input; }}
       src={src} />;
