@@ -7,6 +7,8 @@ import configureStore from 'redux-mock-store';
 import ConfirmSecond from './confirmSecond';
 import i18n from '../../../i18n';
 import accounts from '../../../../test/constants/accounts';
+import styles from './confirmSecond.css';
+import { slideIn } from '../../toolbox/transitionWrapper/transitionWrapper.css';
 
 
 describe('SecondPassphrase: Confirmation', () => {
@@ -43,16 +45,14 @@ describe('SecondPassphrase: Confirmation', () => {
 
   it('should hide the component when hidden is equal to true', () => {
     wrapper = mount(<ConfirmSecond {...props} hidden={true} />, options);
-    const className = wrapper.find('section').props().className;
-    expect(className).to.include('hidden');
+    expect(wrapper.find('section')).to.have.className(styles.hidden);
   });
 
   it('shows login step when user is not login', () => {
     wrapper = mount(<ConfirmSecond {...props} account={{ passphrase: null }} />, options);
     clock.tick(501);
     wrapper.update();
-    const className = wrapper.find('h2').at(0).props().className;
-    expect(className).to.include('slideIn');
+    expect(wrapper.find('h2').at(0)).to.have.className(slideIn);
   });
 
   it('should unlock button become enable when passphrase is entered', () => {
@@ -68,16 +68,14 @@ describe('SecondPassphrase: Confirmation', () => {
     wrapper.find('button.unlock').simulate('click');
     clock.tick(501);
     wrapper.update();
-    const className = wrapper.find('h2').at(1).props().className;
-    expect(className).to.include('slideIn');
+    expect(wrapper.find('h2').at(1)).to.have.className(slideIn);
   });
 
   it('shows confirmation step when user is login', () => {
     wrapper = mount(<ConfirmSecond {...props} />, options);
     clock.tick(501);
     wrapper.update();
-    const className = wrapper.find('h2').at(1).props().className;
-    expect(className).to.include('slideIn');
+    expect(wrapper.find('h2').at(1)).to.have.className(slideIn);
   });
 
   it('should show pending mode when SliderCheckbox is checked', () => {
@@ -86,8 +84,7 @@ describe('SecondPassphrase: Confirmation', () => {
       .simulate('change', { target: { checked: true } });
     clock.tick(501);
     wrapper.update();
-    const className = wrapper.find('#pendingContainer').props().className;
-    expect(className).to.include('slideIn');
+    expect(wrapper.find('#pendingContainer')).to.have.className(slideIn);
     expect(props.finalCallback).to.have.been.calledWith();
   });
 
@@ -104,7 +101,6 @@ describe('SecondPassphrase: Confirmation', () => {
     } });
     clock.tick(501);
     wrapper.update();
-    const className = wrapper.find('.doneContainer').props().className;
-    expect(className).to.include('slideIn');
+    expect(wrapper.find('.doneContainer')).to.have.className(slideIn);
   });
 });
