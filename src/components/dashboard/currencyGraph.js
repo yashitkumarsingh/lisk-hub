@@ -151,6 +151,7 @@ class CurrencyGraph extends React.Component {
     this.state = {
       step: steps[0],
     };
+    throw new Error('on currency graph');
   }
 
   componentWillMount() {
