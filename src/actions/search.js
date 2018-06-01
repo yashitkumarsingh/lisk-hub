@@ -95,7 +95,7 @@ export const searchSuggestions = ({ activePeer, searchTerm }) =>
   (dispatch) => {
     dispatch({
       data: {},
-      type: actionTypes.searchSuggestionsClear,
+      type: actionTypes.searchClearSuggestions,
     });
     searchAll({ activePeer, searchTerm }).then(response => dispatch({
       data: response,

@@ -82,7 +82,7 @@ const search = (state = {
           ...action.data,
         },
       };
-    case actionTypes.searchSuggestionsClear :
+    case actionTypes.searchClearSuggestions :
       return {
         ...state,
         suggestions: {},
