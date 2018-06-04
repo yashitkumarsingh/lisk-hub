@@ -79,7 +79,9 @@ const search = (state = {
       return {
         ...state,
         suggestions: {
-          ...action.data,
+          ...action.data[0],
+          ...action.data[1],
+          ...action.data[2],
         },
       };
     case actionTypes.searchClearSuggestions :
