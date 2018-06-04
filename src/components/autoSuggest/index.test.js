@@ -5,6 +5,7 @@ import { I18nextProvider } from 'react-i18next';
 import { spy } from 'sinon';
 import AutoSuggest from './index';
 import i18n from '../../i18n';
+import styles from './autoSuggest.css';
 
 import * as searchActions from './../search/keyAction';
 
@@ -41,42 +42,40 @@ describe('AutoSuggest', () => {
   });
 
   it('should render a row for each entity found {addresses,delegates,transactions}', () => {
-    expect(wrapper.find('.addresses-result')).to.have.lengthOf(3);
-    expect(wrapper.find('.addresses-header')).to.have.lengthOf(1);
-    expect(wrapper.find('.delegates-result')).to.have.lengthOf(3);
-    expect(wrapper.find('.delegates-header')).to.have.lengthOf(1);
-    expect(wrapper.find('.transactions-result')).to.have.lengthOf(3);
-    expect(wrapper.find('.transactions-header')).to.have.lengthOf(1);
+    expect(wrapper).to.have.exactly(3).descendants('.addresses-result');
+    expect(wrapper).to.have.exactly(3).descendants('.delegates-result');
+    expect(wrapper).to.have.exactly(3).descendants('.transactions-result');
   });
 
   it('should not render any row for not found entities {delegates}', () => {
-    const partialResults = results;
-    delete partialResults.addresses;
-    delete partialResults.transactions;
-    wrapper.setProps({ results: partialResults });
+    const partialResults = {
+      ...results,
+      addresses: [],
+      transactions: [],
+    };
+    const updatedProps = { ...props, results: partialResults };
+    wrapper = mount(<I18nextProvider i18n={i18n}>
+      <AutoSuggest {...updatedProps} /></I18nextProvider>);
     wrapper.update();
-    expect(wrapper.find('.addresses-result')).to.have.lengthOf(0);
-    expect(wrapper.find('.addresses-header')).to.have.lengthOf(0);
-    expect(wrapper.find('.delegates-result')).to.have.lengthOf(3);
-    expect(wrapper.find('.delegates-header')).to.have.lengthOf(1);
-    expect(wrapper.find('.transactions-result')).to.have.lengthOf(0);
-    expect(wrapper.find('.transactions-header')).to.have.lengthOf(0);
+    expect(wrapper).to.have.exactly(0).descendants('.addresses-result');
+    expect(wrapper).to.have.exactly(3).descendants('.delegates-result');
+    expect(wrapper).to.have.exactly(0).descendants('.transactions-result');
   });
 
   it('should show autosuggest on search input change and hide it on blur', () => {
     let autosuggestDropdown = wrapper.find('.autosuggest-dropdown').first();
     const autosuggestInput = wrapper.find('.autosuggest-input').find('input').first();
-    expect(autosuggestDropdown.props().className.match(new RegExp(/ {1}autoSuggest__show__/g))).to.be.equal(null);
+    expect(autosuggestDropdown).not.to.have.className(styles.show);
     autosuggestInput.simulate('focus');
     autosuggestInput.simulate('change', { target: { value: 'abc' } });
     wrapper.update();
     autosuggestDropdown = wrapper.find('.autosuggest-dropdown').first();
-    expect(autosuggestDropdown.props().className.match(new RegExp(/ {1}autoSuggest__show__/g))).not.to.be.equal(null);
+    expect(autosuggestDropdown).to.have.className(styles.show);
 
     autosuggestDropdown.simulate('mouseleave');
     wrapper.update();
     autosuggestDropdown = wrapper.find('.autosuggest-dropdown').first();
-    expect(autosuggestDropdown.props().className.match(new RegExp(/ {1}autoSuggest__show__/g))).to.be.equal(null);
+    expect(autosuggestDropdown).not.to.have.className(styles.show);
   });
 
   it('should allow to click on {addresss} suggestion and redirect to its "explorer/accounts" page', () => {
@@ -135,6 +134,6 @@ describe('AutoSuggest', () => {
     });
     expect(submitSearchSpy).not.to.have.been.calledWith();
     const autosuggestDropdown = wrapper.find('.autosuggest-dropdown').first();
-    expect(autosuggestDropdown.props().className.match(new RegExp(/ {1}autoSuggest__show__/g))).to.be.equal(null);
+    expect(autosuggestDropdown).not.to.have.className(styles.show);
   });
 });
